@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         }
         tv_version.append(AppUtils.getAppVersionName())
         btn_infinite_restart.setOnClickListener {
-            EventBus.getDefault().post(InputEvent("input keyevent 4"))
+            EventBus.getDefault().post(RunEvent())
         }
     }
 

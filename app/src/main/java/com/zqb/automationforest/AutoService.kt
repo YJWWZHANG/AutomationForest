@@ -11,25 +11,14 @@ import com.blankj.utilcode.util.Utils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 /**
  *创建时间:2019/4/8 18:18
  */
 class AutoService: Service() {
 
-    private var mHandle = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            when(msg.what) {
-                0 -> {
-                    EventBus.getDefault().post(InputEvent("input keyevent 4"))
-                    AliMobileAutoCollectEnergyUtils.startAlipay(Utils.getApp(), 0)
-                    sendEmptyMessageDelayed(0, 10000)
-                }
-            }
-        }
-    }
+    private var mIsRun = false
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -38,6 +27,14 @@ class AutoService: Service() {
     override fun onCreate() {
         super.onCreate()
         EventBus.getDefault().register(this)
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                if (mIsRun) {
+                    ShellUtils.execCmd("input keyevent 4", true)
+                    AliMobileAutoCollectEnergyUtils.startAlipay(Utils.getApp(), 0)
+                }
+            }
+        }, 10, 10000)
     }
 
     override fun onDestroy() {
@@ -46,8 +43,7 @@ class AutoService: Service() {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    fun onMessageEventInput(inputEvent: InputEvent) {
-        mHandle.sendEmptyMessage(0)
-        ShellUtils.execCmd(inputEvent.input, true)
+    fun onMessageRunEvent(runEvent: RunEvent) {
+        mIsRun = true
     }
 }
