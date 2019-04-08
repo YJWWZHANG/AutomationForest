@@ -1,6 +1,7 @@
 package com.zqb.automationforest
 
 import android.app.Application
+import com.blankj.utilcode.util.ServiceUtils
 import com.blankj.utilcode.util.Utils
 
 /**
@@ -11,5 +12,6 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         Utils.init(this)
+        ServiceUtils.startService(AutoService::class.java)
     }
 }

@@ -36,5 +36,7 @@ dependencies {
 
     implementation 'com.blankj:utilcode:1.23.7'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.noober.background:core:1.4.1'
+    implementation 'me.jessyan:autosize:1.1.2'
 
 }
