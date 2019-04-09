@@ -6,12 +6,12 @@ import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
+import android.os.SystemClock
 import com.blankj.utilcode.util.ShellUtils
 import com.blankj.utilcode.util.Utils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.*
 
 /**
  *创建时间:2019/4/8 18:18
@@ -20,6 +20,21 @@ class AutoService: Service() {
 
     private var mIsRun = false
 
+    private var mHandler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            if (!mIsRun) {
+                mIsRun = true
+                SystemClock.sleep(10000)
+                ShellUtils.execCmd("input keyevent 4", true)
+                AliMobileAutoCollectEnergyUtils.startAlipay(Utils.getApp(), 0)
+                mIsRun = false
+                sendEmptyMessage(0)
+            }
+        }
+    }
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -27,14 +42,6 @@ class AutoService: Service() {
     override fun onCreate() {
         super.onCreate()
         EventBus.getDefault().register(this)
-        Timer().schedule(object : TimerTask() {
-            override fun run() {
-                if (mIsRun) {
-                    ShellUtils.execCmd("input keyevent 4", true)
-                    AliMobileAutoCollectEnergyUtils.startAlipay(Utils.getApp(), 0)
-                }
-            }
-        }, 10, 10000)
     }
 
     override fun onDestroy() {
@@ -44,6 +51,8 @@ class AutoService: Service() {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     fun onMessageRunEvent(runEvent: RunEvent) {
-        mIsRun = true
+        ShellUtils.execCmd("input keyevent 4", true)
+        AliMobileAutoCollectEnergyUtils.startAlipay(Utils.getApp(), 0)
+        mHandler.sendEmptyMessage(0)
     }
 }
