@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Message
 import android.os.SystemClock
+import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ShellUtils
 import com.blankj.utilcode.util.Utils
 import org.greenrobot.eventbus.EventBus
@@ -26,7 +27,7 @@ class AutoService: Service() {
             super.handleMessage(msg)
             if (!mIsRun) {
                 mIsRun = true
-                SystemClock.sleep(10000)
+                SystemClock.sleep(SPUtils.getInstance().getString(Constants.REBOOT_TIME, "10").toInt() * 1000L)
                 ShellUtils.execCmd("input keyevent 4", true)
                 AliMobileAutoCollectEnergyUtils.startAlipay(Utils.getApp(), 0)
                 mIsRun = false

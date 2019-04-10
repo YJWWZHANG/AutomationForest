@@ -18,6 +18,9 @@
         <item name="android:windowFullscreen">?android:windowNoTitle</item>
     </style>
 
-
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@android:color/black</item>
+    </style>
 
 </resources>

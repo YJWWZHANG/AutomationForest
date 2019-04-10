@@ -5,6 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         tools:ignore="MissingPrefix">
 
     <Button
@@ -30,7 +32,7 @@
             app:bl_ripple_color="@color/material_yellow_900"/>
 
     <Button
-            android:text="无限重启蚂蚁森林"
+            android:text="循环启动蚂蚁森林"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_infinite_restart"
@@ -40,7 +42,6 @@
             android:textColor="@color/material_light_blue_700"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:bl_corners_radius="8dp"
             app:bl_stroke_color="@color/material_black"
@@ -49,7 +50,9 @@
             app:bl_gradient_startColor="@color/material_orange_100"
             app:bl_stroke_width="2dp"
             app:bl_ripple_enable="true"
-            app:bl_ripple_color="@color/material_yellow_900" app:layout_constraintVertical_bias="0.19999999"/>
+            app:bl_ripple_color="@color/material_yellow_900" app:layout_constraintVertical_bias="0.19999999"
+            app:layout_constraintHorizontal_chainStyle="packed" app:layout_constraintEnd_toStartOf="@+id/textView2"
+            app:layout_constraintHorizontal_bias="0.5"/>
 
     <TextView
             android:text="当前版本："
@@ -64,4 +67,38 @@
             app:bl_gradient_angle="0"
             app:bl_gradient_endColor="@color/material_green_900"
             app:bl_gradient_startColor="@color/material_green_100"/>
+    <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="3"
+            android:id="@+id/et_time"
+            android:gravity="center"
+            android:textCursorDrawable="@null"
+            android:theme="@style/MyEditText"
+            app:layout_constraintTop_toTopOf="@+id/btn_infinite_restart"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_infinite_restart"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textView2" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/textView"
+    />
+    <TextView
+            android:text="秒启动一次"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_black"
+            android:id="@+id/textView" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/et_time"
+            app:layout_constraintTop_toTopOf="@+id/et_time" app:layout_constraintBottom_toBottomOf="@+id/et_time"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintVertical_bias="0.423"/>
+    <TextView
+            android:text="每"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_black"
+            android:id="@+id/textView2" app:layout_constraintStart_toEndOf="@+id/btn_infinite_restart"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/et_time"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="@+id/et_time" app:layout_constraintBottom_toBottomOf="@+id/et_time"/>
 </android.support.constraint.ConstraintLayout>
